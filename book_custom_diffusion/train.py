@@ -737,8 +737,10 @@ def main(args):
 
                     num_new_images = args.num_class_images - cur_class_images
                     logger.info(f"Number of class images to sample: {num_new_images}.")
+                    class_prompt = concept.get('class_prompt')
+                    logger.info(f'Generating with class prompt: {class_prompt}.')
 
-                    sample_dataset = PromptDataset(args.class_prompt, num_new_images)
+                    sample_dataset = PromptDataset(class_prompt, num_new_images)
                     sample_dataloader = torch.utils.data.DataLoader(sample_dataset, batch_size=args.sample_batch_size)
 
                     sample_dataloader = accelerator.prepare(sample_dataloader)
