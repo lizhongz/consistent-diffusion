@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import PIL
 
+from torchmetrics.functional.multimodal import clip_score
 from transformers import (
     CLIPTokenizer,
     CLIPTextModelWithProjection,
