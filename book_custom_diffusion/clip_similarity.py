@@ -1,20 +1,19 @@
-# ClipSimilarity calculates (image, image) and (image, text) CLIP
-# similiarity score. 
-#
-# Usage example:
-#   clip_sim = CreateClipSimilarity()
-#   i2i_score = clip_sim.image_similarity(img1, img2)
-#   t2i_score = clip_sim.text_image_similiarity('teddy', img)
-
-import PIL
 import numpy as np
-from torchmetrics.functional.multimodal import clip_score
+import torch
+import PIL
+
 from transformers import (
     CLIPTokenizer,
     CLIPTextModelWithProjection,
     CLIPVisionModelWithProjection,
     CLIPImageProcessor,
 )
+
+clip_id='openai/clip-vit-large-patch14'
+tokenizer = CLIPTokenizer.from_pretrained(clip_id)
+text_encoder = CLIPTextModelWithProjection.from_pretrained(clip_id).to('cuda')
+image_processor = CLIPImageProcessor.from_pretrained(clip_id)
+image_encoder = CLIPVisionModelWithProjection.from_pretrained(clip_id).to('cuda')
 
 class ClipSimilarity:
     def __init__(self, tokenizer, text_encoder, image_processor, image_encoder, clip_model='openai/clip-vit-large-patch14'):
@@ -44,11 +43,6 @@ class ClipSimilarity:
         t = torch.from_numpy(np.array(img)).permute(2, 0, 1)  # (255, 255, 3) -> (3, 255, 255)
         score = clip_score(t, prompt, model_name_or_path=self.clip_model).detach()
         return round(float(score.item()), 4)
-
+    
 def CreateClipSimilarity(): 
-    clip_id='openai/clip-vit-large-patch14'
-    tokenizer = CLIPTokenizer.from_pretrained(clip_id)
-    text_encoder = CLIPTextModelWithProjection.from_pretrained(clip_id).to('cuda')
-    image_processor = CLIPImageProcessor.from_pretrained(clip_id)
-    image_encoder = CLIPVisionModelWithProjection.from_pretrained(clip_id).to('cuda')
     return ClipSimilarity(tokenizer, text_encoder, image_processor, image_encoder, clip_model=clip_id)
