@@ -14,4 +14,5 @@ accelerate launch train.py \
   --max_train_steps=1500 \
   --num_class_images=200 \
   --scale_lr --hflip  \
+  --mixed_precision=fp16 \
   --modifier_token "<c1>+<s1>" 
