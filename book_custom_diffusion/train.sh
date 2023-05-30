@@ -11,7 +11,7 @@ accelerate launch train.py \
   --train_batch_size=2  \
   --learning_rate=1e-5  \
   --lr_warmup_steps=0 \
-  --max_train_steps=1500 \
+  --max_train_steps=2500 \
   --num_class_images=200 \
   --scale_lr --hflip  \
   --mixed_precision=fp16 \
