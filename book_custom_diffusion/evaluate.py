@@ -17,24 +17,6 @@ import clip_similarity
 #        load_images('data/cartoon_boy/gen_red_planet'))
 #
 
-def load_images(input_dir):
-    imgs = []
-    for f in os.listdir(input_dir):
-        try:
-            img = Image.open(os.path.join(input_dir, f))
-            imgs.append(img)
-        except IOError:
-            # Not an image file or other IO error.
-            continue
-    return imgs
-
-def save_images(images, out_dir, prefix=''):
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
-
-    for i in range(len(images)):
-        images[i].save(os.path.join(out_dir, f'{prefix}{i}.png'), format='PNG')
-
 def evalulate_image_sim(images_a: List[Image.Image], images_b: List[Image.Image]) -> float:
     '''Evaluate image similarity/alignment.
     
