@@ -614,6 +614,7 @@ class DreamBoothDataset(Dataset):
     def __len__(self):
         return self._length
 
+    # Each example contains both instance and class pair.
     def __getitem__(self, index):
         example = {}
         instance_image = Image.open(self.instance_images_path[index % self.num_instance_images])
@@ -652,6 +653,7 @@ class DreamBoothDataset(Dataset):
         return example
 
 
+# Concantenate to avoid running diffusion algorithm for twice.
 def collate_fn(examples, with_prior_preservation=False):
     has_attention_mask = "instance_attention_mask" in examples[0]
 
