@@ -584,7 +584,7 @@ class DreamBoothDataset(Dataset):
         if not self.instance_data_root.exists():
             raise ValueError(f"Instance {self.instance_data_root} images root doesn't exists.")
 
-        self.instance_images_path = list(Path(instance_data_root).iterdir())
+        self.instance_images_path = [f for f in list(Path(instance_data_root).iterdir()) if f.is_file()]
         self.num_instance_images = len(self.instance_images_path)
         self.instance_prompt = instance_prompt
         self._length = self.num_instance_images
@@ -592,7 +592,7 @@ class DreamBoothDataset(Dataset):
         if class_data_root is not None:
             self.class_data_root = Path(class_data_root)
             self.class_data_root.mkdir(parents=True, exist_ok=True)
-            self.class_images_path = list(self.class_data_root.iterdir())
+            self.class_images_path = [f for f in list(self.class_data_root.iterdir()) if f.is_file()]
             if class_num is not None:
                 self.num_class_images = min(len(self.class_images_path), class_num)
             else:
@@ -799,7 +799,7 @@ def main(args):
         class_images_dir = Path(args.class_data_dir)
         if not class_images_dir.exists():
             class_images_dir.mkdir(parents=True)
-        cur_class_images = len(list(class_images_dir.iterdir()))
+        cur_class_images = len([f for f in list(class_images_dir.iterdir()) if f.is_file()])
 
         if cur_class_images < args.num_class_images:
             torch_dtype = torch.float16 if accelerator.device.type == "cuda" else torch.float32

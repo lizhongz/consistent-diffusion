@@ -1,0 +1,14 @@
+[
+  {
+    "instance_prompt": "photo of <c1> cartoon character",
+    "class_prompt": "photo of cartoon character",
+    "instance_data_dir": "./data/pig",
+    "class_data_dir": "./data/cartoon_boy/reg"
+  },
+  {
+    "instance_prompt": "photo of <s1> style",
+    "class_prompt": "photo of cartoon style",
+    "instance_data_dir": "./data/style_1",
+    "class_data_dir": "./data/style_1/reg"
+  }
+]
